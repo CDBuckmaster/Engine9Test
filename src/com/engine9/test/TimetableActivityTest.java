@@ -6,12 +6,16 @@ import java.util.concurrent.TimeUnit;
 
 import com.engine9.Listing;
 import com.engine9.TimetableActivity;
+import com.engine9.FavouriteManager;
 import com.jayway.android.robotium.solo.Solo;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class TimetableActivityTest extends ActivityInstrumentationTestCase2<TimetableActivity> {
 	
@@ -23,7 +27,7 @@ public class TimetableActivityTest extends ActivityInstrumentationTestCase2<Time
 		
 	}
 	
-	public void testNormal() throws Exception{
+	public void testNormalLaunch() throws Exception{
 		assertTrue(tActivity.getIntent().getStringExtra("timeURL") != null);
 		
 		ListView lv = (ListView) solo.getView(com.engine9.R.id.list_view);
@@ -31,7 +35,73 @@ public class TimetableActivityTest extends ActivityInstrumentationTestCase2<Time
 		
 	}
 	
-	public void testTimes() throws Exception{
+	public void testAddFavourite() throws Exception{
+		ListView lv = (ListView) tActivity.findViewById(com.engine9.R.id.list_view);
+		View v = lv.getChildAt(0);
+		
+		TextView tv = (TextView)  v.findViewById(com.engine9.R.id.code);
+		String code = tv.getText().toString();
+		
+		final Button b = (Button) v.findViewById(com.engine9.R.id.add_fav_button);
+		try {
+			runTestOnUiThread(new Runnable() {
+
+			    @Override
+			    public void run() {
+			      b.performClick();
+			    }
+			  });
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertTrue(FavouriteManager.inFavourites(tActivity.getApplicationContext(), code));
+		
+		
+	}
+	
+	public void testDeleteFavourite() throws Exception{
+		ListView lv = (ListView) tActivity.findViewById(com.engine9.R.id.list_view);
+		View v = lv.getChildAt(0);
+		
+		TextView tv = (TextView)  v.findViewById(com.engine9.R.id.code);
+		String code = tv.getText().toString();
+		
+		final Button b = (Button) v.findViewById(com.engine9.R.id.add_fav_button);
+		try {
+			runTestOnUiThread(new Runnable() {
+
+			    @Override
+			    public void run() {
+			      b.performClick();
+			    }
+			  });
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertFalse(FavouriteManager.inFavourites(tActivity.getApplicationContext(), code));
+	}
+	
+	public void testOnlyFavourites() throws Exception{
+		solo.clickOnButton("Favourite routes only");
+		
+		ListView lv = (ListView) tActivity.findViewById(com.engine9.R.id.list_view);
+		for(int i = 0; i < lv.getAdapter().getCount(); i ++){
+			View v = lv.getChildAt(0);
+			
+			TextView tv = (TextView)  v.findViewById(com.engine9.R.id.code);
+			String code = tv.getText().toString();
+			
+			assertTrue(FavouriteManager.inFavourites(tActivity.getApplicationContext(), code));
+		}
+		
+	}
+	
+	
+	public void testTimeUpdate() throws Exception{
 		assertTrue(tActivity.getIntent().getStringExtra("timeURL") != null);
 		
 		ListView lv = (ListView) solo.getView(com.engine9.R.id.list_view);
@@ -50,6 +120,7 @@ public class TimetableActivityTest extends ActivityInstrumentationTestCase2<Time
 		
 		assertTrue(al.size() == lv.getAdapter().getCount());
 	}
+	
 	
 	protected void setUp() throws Exception{
 		
