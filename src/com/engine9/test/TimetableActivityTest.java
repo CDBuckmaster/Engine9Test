@@ -1,8 +1,10 @@
 package com.engine9.test;
 
+import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import com.engine9.Listing;
 import com.engine9.TimetableActivity;
 import com.jayway.android.robotium.solo.Solo;
 
@@ -24,29 +26,46 @@ public class TimetableActivityTest extends ActivityInstrumentationTestCase2<Time
 	public void testNormal() throws Exception{
 		assertTrue(tActivity.getIntent().getStringExtra("timeURL") != null);
 		
-		tActivity.tRequest.get(15000, TimeUnit.MILLISECONDS);
-		Log.e("DEBUG", tActivity.tRequest.getStatus().toString());
-		
 		ListView lv = (ListView) solo.getView(com.engine9.R.id.list_view);
 		assertFalse(lv.getAdapter().isEmpty());
 		
 	}
 	
+	public void testTimes() throws Exception{
+		assertTrue(tActivity.getIntent().getStringExtra("timeURL") != null);
+		
+		ListView lv = (ListView) solo.getView(com.engine9.R.id.list_view);
+		assertFalse(lv.getAdapter().isEmpty());
+		
+		ArrayList<Listing> al = new ArrayList<Listing>();
+		
+		for(int i = 0; i < lv.getAdapter().getCount(); i ++){
+			Listing l = (Listing) lv.getAdapter().getItem(i);
+			if (((l.time * 10  - System.currentTimeMillis())/ 60000) > -5){
+				al.add(l);
+			}
+		}
+		
+		Thread.sleep(1000 * 60);
+		
+		assertTrue(al.size() == lv.getAdapter().getCount());
+	}
+	
 	protected void setUp() throws Exception{
 		
 		Intent i = new Intent();
-		i.putExtra("timeURL", "https://dl.dropboxusercontent.com/u/26635718/timetableMilton.json");
+		i.putExtra("timeURL", "http://deco3801-005.uqcloud.net/cache/network/rest/stop-timetables/?stopIds=000268");
 		setActivityIntent(i);
 		
 		tActivity = getActivity();
 		solo = new Solo(getInstrumentation(), tActivity);
 		
+		
 		try {
-		    Thread.sleep(12000);
+		    Thread.sleep(6000);
 		  } catch (InterruptedException e) {
 		    e.printStackTrace();
 		  }
-		
 		
 		
 	}
