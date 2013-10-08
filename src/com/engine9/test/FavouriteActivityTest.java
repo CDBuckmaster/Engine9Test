@@ -30,7 +30,7 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 		
 		assertTrue(FavouriteManager.inFavourites(fActivity.getApplicationContext(), "412"));
 		
-		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.listView1);
+		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.abstract_list);
 		assertTrue(lv.getAdapter().getCount() == 1);
 		
 		TextView tv = (TextView) lv.getChildAt(0).findViewById(com.engine9.R.id.fav_text);
@@ -50,7 +50,7 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 		
 		assertTrue(FavouriteManager.inFavourites(fActivity.getApplicationContext(), "412"));
 		
-		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.listView1);
+		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.abstract_list);
 		assertTrue(lv.getAdapter().getCount() == 1);
 		
 		
@@ -64,7 +64,7 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 		
 		assertFalse(FavouriteManager.inFavourites(fActivity.getApplicationContext(), "10000"));
 		
-		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.listView1);
+		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.abstract_list);
 		assertTrue(lv.getAdapter().getCount() == 0);
 	}
 	
@@ -74,7 +74,7 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text1), "412");
 		solo.clickOnButton("Add Favourite");
 		
-		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.listView1);
+		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.abstract_list);
 		final Button b = (Button)lv.getChildAt(0).findViewById(com.engine9.R.id.delete_fav);
 		
 		try {
@@ -102,7 +102,7 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 		
 		assertFalse(FavouriteManager.inFavourites(fActivity.getApplicationContext(), "412"));
 		
-		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.listView1);
+		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.abstract_list);
 		assertTrue(lv.getAdapter().getCount() == 0);
 		
 	}
