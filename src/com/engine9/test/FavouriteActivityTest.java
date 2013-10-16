@@ -25,7 +25,7 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 	
 	public void testSaveFavourite() throws Exception{
 		FavouriteManager.deleteAllFavourites(fActivity.getApplicationContext());
-		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text1), "412");
+		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text), "412");
 		solo.clickOnButton("Add Favourite");
 		
 		assertTrue(FavouriteManager.inFavourites(fActivity.getApplicationContext(), "412"));
@@ -42,10 +42,10 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 	public void testDuplicateFavourite() throws Exception{
 		FavouriteManager.deleteAllFavourites(fActivity.getApplicationContext());
 		
-		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text1), "412");
+		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text), "412");
 		solo.clickOnButton("Add Favourite");
 		
-		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text1), "412");
+		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text), "412");
 		solo.clickOnButton("Add Favourite");
 		
 		assertTrue(FavouriteManager.inFavourites(fActivity.getApplicationContext(), "412"));
@@ -59,7 +59,7 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 	public void testInvalidService() throws Exception{
 		FavouriteManager.deleteAllFavourites(fActivity.getApplicationContext());
 		
-		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text1), "10000");
+		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text), "10000");
 		solo.clickOnButton("Add Favourite");
 		
 		assertFalse(FavouriteManager.inFavourites(fActivity.getApplicationContext(), "10000"));
@@ -71,7 +71,7 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 	public void testDeleteFavourite() throws Exception{
 		FavouriteManager.deleteAllFavourites(fActivity.getApplicationContext());
 		
-		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text1), "412");
+		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text), "412");
 		solo.clickOnButton("Add Favourite");
 		
 		ListView lv = (ListView) fActivity.findViewById(com.engine9.R.id.abstract_list);
@@ -97,7 +97,7 @@ public class FavouriteActivityTest extends ActivityInstrumentationTestCase2<Favo
 	public void testIllegal() throws Exception{
 		FavouriteManager.deleteAllFavourites(fActivity.getApplicationContext());
 		
-		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text1), "%$%#$$$\n");
+		solo.enterText((EditText) fActivity.findViewById(com.engine9.R.id.fav_text), "%$%#$$$\n");
 		solo.clickOnButton("Add Favourite");
 		
 		assertFalse(FavouriteManager.inFavourites(fActivity.getApplicationContext(), "412"));
